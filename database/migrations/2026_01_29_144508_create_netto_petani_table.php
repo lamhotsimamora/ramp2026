@@ -17,8 +17,7 @@ return new class extends Migration
             $table->float('berat_mobil_sawit_bruto');
             $table->float('berat_mobil_kosong_tara');
             $table->float('berat_total_sawit_netto');
-            $table->date('date');
-            $table->time('time');
+         
              $table->timestamps();
         });
     }

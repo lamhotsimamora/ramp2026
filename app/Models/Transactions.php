@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transactions extends Model
 {
-   protected $table = 'transaction';
+    protected $table = 'transaction';
     public $timestamps = true;
 
       protected $fillable = [
