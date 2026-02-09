@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DailyController;
 use App\Http\Controllers\NotaController;
 use App\Http\Controllers\PetaniController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Middleware\TokenAuth;
@@ -27,6 +28,7 @@ Route::post('/petani/search', [PetaniController::class, 'search'])->middleware(T
 Route::post('/setting/load', [SettingController::class, 'load'])->middleware(TokenAuth::class);
 Route::post('/setting/save', [SettingController::class, 'save'])->middleware(TokenAuth::class);
 
+Route::post('/profile/load', [ProfileController::class, 'load'])->middleware(TokenAuth::class);
 
 Route::post('/daily/load', [DailyController::class, 'load'])->middleware(TokenAuth::class);
 Route::post('/daily/save', [DailyController::class, 'save'])->middleware(TokenAuth::class);

@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('transaction', function (Blueprint $table) {
             $table->id();
+            $table->string("inv");
             $table->bigInteger('id_petani');
             $table->bigInteger('id_daily_price');
             $table->bigInteger('id_netto_petani');
             $table->float('total_money');
             $table->text('type_payment');
-             $table->timestamps();
+            $table->timestamps();
         });
     }
 

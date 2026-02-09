@@ -16,6 +16,7 @@ class NotaController extends Controller
         $id_netto_petani = $netto_petani->id;
 
         $transaction =  \App\Models\Transactions::create([
+            'inv' => $this->generateInvoice(),
             'id_petani' => $request->id_petani['id'],
             'id_daily_price' =>$request->id_price_daily,
             'id_netto_petani' => $id_netto_petani,
@@ -24,5 +25,12 @@ class NotaController extends Controller
         ]);
 
         return $this->responseSuccess('Transactions saved successfully', null);     
+    }
+
+    private function generateInvoice(){
+         $date = now()->format('Ymd'); // 20260209
+        $random = strtoupper(substr(bin2hex(random_bytes(4)), 0, 6)); // 6 char random
+
+        return "INV-{$date}-{$random}";
     }
 }

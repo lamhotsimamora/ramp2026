@@ -3,9 +3,11 @@
 use App\Models\Admins;
 use App\Models\DailyPrices;
 use App\Models\Petani;
+use App\Models\Profiles;
 use App\Models\Settings;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 // Artisan::command('inspire', function () {
 //     $this->comment(Inspiring::quote());
@@ -19,11 +21,11 @@ Artisan::command('seed', function () {
     ]);
 
     Petani::create([
-        'name' => 'Petani 1',
-        'hp' => '081234567890',
-        'address' => 'Jl. Merdeka No. 1',
-        'mobil_jenis'=> 'Truk',
-        'plat_mobil'=> 'B 1234 CD',
+        'name' => 'Lamhot SImamora',
+        'hp' => '081399453242',
+        'address' => 'Sidodadi',
+        'mobil_jenis'=> 'Carry',
+        'plat_mobil'=> 'BH 8329 SG',
     ]);
 
     Settings::create([
@@ -34,5 +36,14 @@ Artisan::command('seed', function () {
     DailyPrices::create([
         'price_daily' => 3090,
         'date_price' => date('Y-m-d'),
+    ]);
+
+    Profiles::create([
+        'name' => 'Ojolali RAMP',
+        'address' => 'Simpang Kapok',
+        'email'=>'ojolali@gmail.com',
+        'description' =>'NIB: 123456789',
+        'hp' => '081212121212',
+        'logo' => './img/no-image.png'
     ]);
 })->purpose('');

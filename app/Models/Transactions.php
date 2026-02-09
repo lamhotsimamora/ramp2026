@@ -10,6 +10,7 @@ class Transactions extends Model
     public $timestamps = true;
 
       protected $fillable = [
+        'inv',
         'id_petani',
         'id_daily_price',
         'id_netto_petani',
