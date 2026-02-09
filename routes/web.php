@@ -5,7 +5,7 @@ use App\Models\Settings;
 use App\Models\ViewTransactions;
 use Illuminate\Support\Facades\Route;
 
-
+use Carbon\Carbon;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -33,4 +33,54 @@ Route::get('/print/nota/{id}',function($id){
     );
 
     return view('invoice', ($data));
+});
+
+Route::get('/report/transaction/monthly', function () {
+    $profile = Profiles::where('id', 1)->get();
+    $transaction = ViewTransactions::whereMonth('created_at', date('m'))
+        ->whereYear('created_at', date('Y'))
+         ->orderBy('id','desc')
+        ->get();
+
+    $total_transaction = $transaction->sum('total_money');
+
+    $setting = Settings::where('id',1)->get();
+
+    $data = array(
+        'profile' => $profile[0],
+        'transaction' => $transaction,
+        'date' => date('M') . '-' . date('Y'),
+        'now' => date('d-M-Y'),
+        'total' => $total_transaction,
+        'description'=> 'Monthly Sales Report',
+        'potongan_persen'=>$setting[0]['potongan_persen'],
+        'potongan_muat'=>$setting[0]['potongan_muat']
+    );
+    return view('report', $data);
+});
+
+Route::get('/report/transaction/weekly', function () {
+    $profile = Profiles::where('id', 1)->get();
+     $transaction = ViewTransactions::whereBetween('created_at', [
+        Carbon::now()->startOfWeek(), 
+        Carbon::now()->endOfWeek()
+    ])
+     ->orderBy('id','desc')
+    ->get();
+
+    $total_transaction = $transaction->sum('total_money');
+
+    $setting = Settings::where('id',1)->get();
+
+    $data = array(
+        'profile' => $profile[0],
+        'transaction' => $transaction,
+        'date' => date('M') . '-' . date('Y'),
+        'now' => date('d-M-Y'),
+        'total' => $total_transaction,
+        'description'=> 'Weekly Sales Report',
+        'potongan_persen'=>$setting[0]['potongan_persen'],
+        'potongan_muat'=>$setting[0]['potongan_muat']
+    );
+    return view('report', $data);
 });

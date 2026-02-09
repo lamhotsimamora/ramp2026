@@ -24,7 +24,10 @@ class NotaController extends Controller
             'type_payment'=>'Cash'
         ]);
 
-        return $this->responseSuccess('Transactions saved successfully', null);     
+
+        $id = $transaction->id;
+
+        return $this->responseSuccess('Transactions saved successfully', $id);     
     }
 
     private function generateInvoice(){
