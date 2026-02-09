@@ -29,6 +29,8 @@ Route::post('/setting/load', [SettingController::class, 'load'])->middleware(Tok
 Route::post('/setting/save', [SettingController::class, 'save'])->middleware(TokenAuth::class);
 
 Route::post('/profile/load', [ProfileController::class, 'load'])->middleware(TokenAuth::class);
+Route::post('/profile/save', [ProfileController::class, 'save'])->middleware(TokenAuth::class);
+Route::post('/profile/upload', [ProfileController::class, 'upload'])->middleware(TokenAuth::class);
 
 Route::post('/daily/load', [DailyController::class, 'load'])->middleware(TokenAuth::class);
 Route::post('/daily/save', [DailyController::class, 'save'])->middleware(TokenAuth::class);
@@ -36,3 +38,5 @@ Route::post('/daily/save', [DailyController::class, 'save'])->middleware(TokenAu
 Route::post('/nota/save', [NotaController::class, 'save'])->middleware(TokenAuth::class);
 
 Route::post('/transaction/load', [TransactionController::class, 'load'])->middleware(TokenAuth::class);
+
+Route::post('/transaction/total/load', [TransactionController::class, 'totalLoad'])->middleware(TokenAuth::class);

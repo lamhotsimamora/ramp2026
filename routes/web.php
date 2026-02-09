@@ -5,6 +5,7 @@ use App\Models\Settings;
 use App\Models\ViewTransactions;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,12 +21,15 @@ Route::get('/print/nota/{id}',function($id){
 
     $setting = Settings::where('id',1)->get();
 
+    $url = asset('storage');
+
 
     $data = array(
         'id' => $id,
         'profile' => $profile[0],
         'transaction' => $transaction[0],
-        'setting' => $setting[0]
+        'setting' => $setting[0],
+        'url' => $url
     );
 
     return view('invoice', ($data));

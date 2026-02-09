@@ -37,7 +37,7 @@
 
     <!-- LOGO + PROFILE -->
     <div class="flex flex-col items-center mb-2">
-      <img src="{{ $profile['logo'] }}" class="w-16 h-16 object-contain mb-1">
+      <img src="{{ $url.'/'.($profile['logo']) }}" class="w-16 h-16 object-contain mb-1">
       <div class="text-center">
         <div class="font-bold text-sm">{{ $profile['name'] }}</div>
         <div>{{ $profile['address'] }}</div>
@@ -170,6 +170,8 @@ new Vue({
     }
   }
 });
+
+window.print()
 </script>
 
 </body>
