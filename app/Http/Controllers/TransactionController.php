@@ -12,6 +12,14 @@ class TransactionController extends Controller
         return $this->responseSuccess('transaction loaded successfully', $transaction);
     }
 
+    public function delete(Request $request){
+        $transaction =   \App\Models\Transactions::find($request->id);
+
+        $transaction->delete();
+
+        return $this->responseSuccess('transaction delete successfully',null);
+    }
+
     public function totalLoad(){
         $today = Transactions::whereDate('created_at', today());
         $week  = Transactions::whereBetween('created_at', [now()->startOfWeek(), now()]);

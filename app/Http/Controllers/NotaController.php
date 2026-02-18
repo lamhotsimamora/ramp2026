@@ -18,10 +18,12 @@ class NotaController extends Controller
         $transaction =  \App\Models\Transactions::create([
             'inv' => $this->generateInvoice(),
             'id_petani' => $request->id_petani['id'],
-            'id_daily_price' =>$request->id_price_daily,
             'id_netto_petani' => $id_netto_petani,
             'total_money'=> $request->total_money,
-            'type_payment'=>'Cash'
+            'type_payment'=>'Cash',
+            'potongan_persentase'=>$request->potonganPersen,
+            'price_sawit'=>$request->price_sawit,
+            'potongan_muat'=>$request->potonganMuat
         ]);
 
 

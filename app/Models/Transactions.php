@@ -12,8 +12,10 @@ class Transactions extends Model
       protected $fillable = [
         'inv',
         'id_petani',
-        'id_daily_price',
         'id_netto_petani',
+        'price_sawit',
+        'potongan_muat',
+        'potongan_persentase',
         'date',
         'time',
         'total_money',

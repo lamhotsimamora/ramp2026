@@ -98,8 +98,8 @@ table th {
             <th>Tara</th>
             <th>Netto</th>
             <th>Nilai Kotor</th>
-            <th>Pot % ({{ $potongan_persen }}%)</th>
-            <th>Pot Muat</th>
+            <th>Potongan % ({{ $transaction[0]->potongan_persentase }}%)</th>
+            <th>Potongan Muat</th>
             <th class="text-right" style="width:140px;">Sub Total</th>
         </tr>
         </thead>
@@ -124,19 +124,19 @@ $grand_total = 0;
     $netto = $bruto - $tara;
 
     // HARGA PER KG
-    $harga = (float) $row->price_daily;
+    $harga = (float) $row->price_sawit;
 
     // NILAI KOTOR
     $nilai_kotor = $netto * $harga;
 
     // POTONGAN PERSEN
-    $pot_persen_nominal = ($nilai_kotor * $potongan_persen) / 100;
+    $pot_persen_nominal = ($nilai_kotor * $row->potongan_persentase) / 100;
 
     // =========================
     // POTONGAN MUAT
     // =========================
     // MODE A: FLAT
-    $pot_muat_nominal = (float) $potongan_muat;
+    $pot_muat_nominal = (float)  $row->potongan_muat;
 
     // MODE B: PER KG  → aktifkan jika modelnya per kg
     // $pot_muat_nominal = $netto * $potongan_muat;

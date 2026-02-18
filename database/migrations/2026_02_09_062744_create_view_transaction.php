@@ -12,13 +12,12 @@ return new class extends Migration
     public function up(): void
     {
        DB::statement(<<<SQL
-             CREATE VIEW view_transaction AS
-            select transaction.*,petani.name,daily_prices.price_daily,netto_petani.berat_mobil_sawit_bruto,netto_petani.berat_total_sawit_netto,netto_petani.berat_mobil_kosong_tara
+            CREATE VIEW view_transaction AS
+            select transaction.*,petani.name,netto_petani.berat_mobil_sawit_bruto,netto_petani.berat_total_sawit_netto,netto_petani.berat_mobil_kosong_tara
             from transaction
             join petani
-            join daily_prices
             join netto_petani
-            where transaction.id_petani = petani.id and daily_prices.id = transaction.id_daily_price and netto_petani.id = transaction.id_netto_petani
+            where transaction.id_petani = petani.id and netto_petani.id = transaction.id_netto_petani
         SQL);
     }
 

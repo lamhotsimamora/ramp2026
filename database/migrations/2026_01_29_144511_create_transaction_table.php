@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string("inv");
             $table->bigInteger('id_petani');
-            $table->bigInteger('id_daily_price');
             $table->bigInteger('id_netto_petani');
+            $table->float('price_sawit');
             $table->float('total_money');
             $table->text('type_payment');
+            $table->float('potongan_muat');
+            $table->float('potongan_persentase');
             $table->timestamps();
         });
     }

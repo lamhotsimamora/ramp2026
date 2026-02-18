@@ -12,7 +12,9 @@
 <style>
 .thermal {
   width: 300px;
-  font-size: 12px;
+  font-size: 15px;      /* BESARKAN */
+  line-height: 1.4;     /* Biar tidak terlalu rapat */
+  font-weight: 600;     /* Lebih tegas */
 }
 
 @media print {
@@ -83,6 +85,11 @@
         <td>Netto</td>
         <td class="text-right">@{{ netto }} kg</td>
       </tr>
+
+      <tr>
+        <td>@{{persen}} % dari Netto</td>
+        <td class="text-right">@{{ (netto-(3*1/100)) }} kg</td>
+      </tr>
     </table>
 
     <div class="border-t border-dashed my-2"></div>
@@ -137,9 +144,9 @@ new Vue({
       tara: {{ $transaction['berat_mobil_kosong_tara'] }}
     },
 
-    harga: {{ $transaction['price_daily'] }},
-    persen: {{ $setting['potongan_persen'] }},
-    potonganMuat: {{ $setting['potongan_muat'] }}
+    harga: {{ $transaction['price_sawit'] }},
+    persen: {{ $transaction['potongan_persentase'] }},
+    potonganMuat: {{ $transaction['potongan_muat'] }}
   },
 
   computed: {

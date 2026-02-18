@@ -19,7 +19,7 @@ Route::get('/print/nota/{id}',function($id){
     // get transaction
     $transaction = ViewTransactions::where('id', $id)->get();
 
-    $setting = Settings::where('id',1)->get();
+   
 
     $url = asset('storage');
 
@@ -28,7 +28,6 @@ Route::get('/print/nota/{id}',function($id){
         'id' => $id,
         'profile' => $profile[0],
         'transaction' => $transaction[0],
-        'setting' => $setting[0],
         'url' => $url
     );
 
@@ -44,17 +43,13 @@ Route::get('/report/transaction/monthly', function () {
 
     $total_transaction = $transaction->sum('total_money');
 
-    $setting = Settings::where('id',1)->get();
-
     $data = array(
         'profile' => $profile[0],
         'transaction' => $transaction,
         'date' => date('M') . '-' . date('Y'),
         'now' => date('d-M-Y'),
         'total' => $total_transaction,
-        'description'=> 'Monthly Sales Report',
-        'potongan_persen'=>$setting[0]['potongan_persen'],
-        'potongan_muat'=>$setting[0]['potongan_muat']
+        'description'=> 'Monthly Sales Report'
     );
     return view('report', $data);
 });
@@ -70,7 +65,6 @@ Route::get('/report/transaction/weekly', function () {
 
     $total_transaction = $transaction->sum('total_money');
 
-    $setting = Settings::where('id',1)->get();
 
     $data = array(
         'profile' => $profile[0],
@@ -78,9 +72,35 @@ Route::get('/report/transaction/weekly', function () {
         'date' => date('M') . '-' . date('Y'),
         'now' => date('d-M-Y'),
         'total' => $total_transaction,
-        'description'=> 'Weekly Sales Report',
-        'potongan_persen'=>$setting[0]['potongan_persen'],
-        'potongan_muat'=>$setting[0]['potongan_muat']
+        'description'=> 'Weekly Sales Report'
     );
+    return view('report', $data);
+});
+
+Route::get('/report/transaction/daily', function () {
+   
+    $todayStart = Carbon::now()->startOfDay();
+    $todayEnd   = Carbon::now()->endOfDay();
+
+    $profile = Profiles::where('id', 1)->first();
+
+    $transaction = ViewTransactions::whereBetween('created_at', [
+            $todayStart,
+            $todayEnd
+        ])
+        ->orderBy('id', 'desc')
+        ->get();
+
+    $total_transaction = $transaction->sum('total_money');
+
+    $data = [
+        'profile'     => $profile,
+        'transaction' => $transaction,
+        'date'        => date('d-M-Y'),
+        'now'         => date('d-M-Y'),
+        'total'       => $total_transaction,
+        'description' => 'Daily Sales Report'
+    ];
+
     return view('report', $data);
 });

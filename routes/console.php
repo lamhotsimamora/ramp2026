@@ -28,20 +28,12 @@ Artisan::command('seed', function () {
         'plat_mobil'=> 'BH 8329 SG',
     ]);
 
-    Settings::create([
-        'potongan_muat' => 20000,
-        'potongan_persen' => 3,
-    ]);
 
-    DailyPrices::create([
-        'price_daily' => 3090,
-        'date_price' => date('Y-m-d'),
-    ]);
 
     Profiles::create([
-        'name' => 'Ojolali RAMP',
-        'address' => 'Simpang Kapok',
-        'email'=>'ojolali@gmail.com',
+        'name' => 'Sidodadi Ramp',
+        'address' => 'Sidodadi',
+        'email'=>'sidodadi@gmail.com',
         'description' =>'NIB: 123456789',
         'hp' => '081212121212',
         'logo' => './img/no-image.png'
