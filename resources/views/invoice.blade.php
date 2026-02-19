@@ -12,9 +12,9 @@
 <style>
 .thermal {
   width: 300px;
-  font-size: 15px;      /* BESARKAN */
-  line-height: 1.4;     /* Biar tidak terlalu rapat */
-  font-weight: 600;     /* Lebih tegas */
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 600;
 }
 
 @media print {
@@ -34,10 +34,9 @@
 
 <div id="app">
 
-  <!-- NOTA -->
   <div id="printArea" class="thermal mx-auto bg-white shadow-lg p-3 font-mono">
 
-    <!-- LOGO + PROFILE -->
+    <!-- LOGO -->
     <div class="flex flex-col items-center mb-2">
       <img src="{{ $url.'/'.($profile['logo']) }}" class="w-16 h-16 object-contain mb-1">
       <div class="text-center">
@@ -65,6 +64,12 @@
         <span>Petani</span>
         <span>{{ $transaction['name'] }}</span>
       </div>
+
+      <div class="flex justify-between">
+        <span>Jenis</span>
+        <span v-if="type == 1">TBS</span>
+        <span v-else>Brondolan</span>
+      </div>
     </div>
 
     <div class="border-t border-dashed my-2"></div>
@@ -86,9 +91,12 @@
         <td class="text-right">@{{ netto }} kg</td>
       </tr>
 
-      <tr>
-        <td>@{{persen}} % dari Netto</td>
-        <td class="text-right">@{{ (netto-((netto*persen/100))) }} kg</td>
+      <!-- Hanya untuk TBS -->
+      <tr v-if="type == 1">
+        <td>@{{ persen }} % dari Netto</td>
+        <td class="text-right">
+          @{{ (netto - ((netto * persen) / 100)) }} kg
+        </td>
       </tr>
     </table>
 
@@ -96,30 +104,38 @@
 
     <!-- HARGA -->
     <table class="w-full text-xs">
+
       <tr>
         <td>Harga Sawit</td>
         <td class="text-right">Rp @{{ rupiah(harga) }}</td>
       </tr>
 
-      <tr>
-        <td>Subtotal</td>
-        <td class="text-right">Rp @{{ rupiah(subtotal) }}</td>
-      </tr>
+      <!-- TBS -->
+      <template v-if="type == 1">
 
-      <tr>
-        <td>Potongan @{{ persen }} %</td>
-        <td class="text-right">Rp @{{ rupiah(potonganPersen) }}</td>
-      </tr>
+        <tr>
+          <td>Subtotal</td>
+          <td class="text-right">Rp @{{ rupiah(subtotal) }}</td>
+        </tr>
 
-      <tr>
-        <td>Potongan Muat</td>
-        <td class="text-right">Rp @{{ rupiah(potonganMuat) }}</td>
-      </tr>
+        <tr>
+          <td>Potongan @{{ persen }} %</td>
+          <td class="text-right">Rp @{{ rupiah(potonganPersen) }}</td>
+        </tr>
 
+        <tr>
+          <td>Potongan Muat</td>
+          <td class="text-right">Rp @{{ rupiah(potonganMuat) }}</td>
+        </tr>
+
+      </template>
+
+      <!-- TOTAL -->
       <tr class="font-bold text-sm">
         <td>Total Bayar</td>
         <td class="text-right">Rp @{{ rupiah(totalBayar) }}</td>
       </tr>
+
     </table>
 
     <div class="border-t border-dashed my-2"></div>
@@ -131,7 +147,6 @@
 
   </div>
 
-  
 </div>
 
 <script>
@@ -139,6 +154,10 @@ new Vue({
   el: "#app",
 
   data: {
+    type: {{ $type }},
+
+    netto : {{ $transaction['berat_total_sawit_netto'] }},
+
     timbang: {
       bruto: {{ $transaction['berat_mobil_sawit_bruto'] }},
       tara: {{ $transaction['berat_mobil_kosong_tara'] }}
@@ -151,34 +170,43 @@ new Vue({
 
   computed: {
     netto() {
-      return this.timbang.bruto - this.timbang.tara;
+       // Jika Brondolan → ambil dari DB
+    if (this.type == 2) {
+      return Number(this.nettoDb) || 0;
+    }
+
+    // Jika TBS → hitung otomatis
+    const bruto = Number(this.timbang.bruto) || 0;
+    const tara  = Number(this.timbang.tara) || 0;
+
+    return bruto - tara;
     },
 
     subtotal() {
-      return this.netto * this.harga;
+      return this.netto * (this.harga || 0);
     },
 
     potonganPersen() {
-      return this.subtotal * (this.persen / 100);
+      return this.subtotal * ((this.persen || 0) / 100);
     },
 
     totalBayar() {
-      return this.subtotal - this.potonganPersen - this.potonganMuat;
+      if (this.type == 2) {
+        return this.netto * (this.harga || 0);
+      }
+
+      return this.subtotal - this.potonganPersen - (this.potonganMuat || 0);
     }
   },
 
   methods: {
     rupiah(v) {
-      return Number(v).toLocaleString("id-ID");
-    },
-
-    printNota() {
-      window.print();
+      return Number(v || 0).toLocaleString("id-ID");
     }
   }
 });
 
-window.print()
+window.print();
 </script>
 
 </body>

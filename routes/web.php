@@ -28,7 +28,8 @@ Route::get('/print/nota/{id}',function($id){
         'id' => $id,
         'profile' => $profile[0],
         'transaction' => $transaction[0],
-        'url' => $url
+        'url' => $url,
+        'type' => $transaction[0]->type
     );
 
     return view('invoice', ($data));
