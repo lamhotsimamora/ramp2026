@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('type_payment');
             $table->float('potongan_muat');
             $table->float('potongan_persentase');
+            $table->string('type');
             $table->timestamps();
         });
     }

@@ -20,5 +20,6 @@ class Transactions extends Model
         'time',
         'total_money',
         'type_payment',
+        'type'
     ];
 }

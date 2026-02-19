@@ -23,7 +23,8 @@ class NotaController extends Controller
             'type_payment'=>'Cash',
             'potongan_persentase'=>$request->potonganPersen,
             'price_sawit'=>$request->price_sawit,
-            'potongan_muat'=>$request->potonganMuat
+            'potongan_muat'=>$request->potonganMuat,
+            'type'=> $request->type
         ]);
 
 

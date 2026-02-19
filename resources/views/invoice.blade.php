@@ -88,7 +88,7 @@
 
       <tr>
         <td>@{{persen}} % dari Netto</td>
-        <td class="text-right">@{{ (netto-(3*1/100)) }} kg</td>
+        <td class="text-right">@{{ (netto-((netto*persen/100))) }} kg</td>
       </tr>
     </table>
 
